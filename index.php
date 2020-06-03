@@ -4,7 +4,7 @@ $total=new db('total');
 ?>
 
 <pre>
-<?php print_r($total->all());?>
+<?php print_r($total->del(['total'=>250]));?>
 </pre>
 
 
