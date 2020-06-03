@@ -1,6 +1,7 @@
 <div style="width:99%; height:87%; margin:auto; overflow:auto; border:#666 1px solid;">
           <p class="t cent botli">網站標題管理</p>
-          <form method="post" action="?">
+          <!-- action="api/edit_title.php不用../是因為，此檔案是被include到admin.php，所以要從admin.php角度來看層級關係。 -->
+          <form method="post" action="api/edit_title.php">
             <table width="100%">
               <tbody>
                 <tr class="yel">
@@ -24,6 +25,7 @@
                   <td width="7%"><input type="radio" name="sh" value="<?=$row['id'];?>" <?=$isChk;?>> </td>
                   <td width="7%"><input type="checkbox" name="del[]" value="<?=$row['id'];?>"></td>
                   <td><input type="button" value="更新圖片"></td>
+                  <input type="hidden" name="id[]" value="<?=$row['id'];?>">
                 </tr>
                 
                 <?php
