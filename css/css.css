@@ -70,6 +70,7 @@ body
 {
 	position:relative;
 	border-radius:10px;
+	/* 要用../是因為你現在身處css.css這檔案的位置，所以要跳出這個資料夾，才能連結到icon資料夾。 */
 	background:url(../icon/menu.fw.png) center no-repeat;
 	background-size:cover;
 	line-height:30px;
