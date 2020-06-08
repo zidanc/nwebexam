@@ -18,7 +18,7 @@
   <div id="cover" style="display:none; ">
     <div id="coverr">
       <a style="position:absolute; right:3px; top:4px; cursor:pointer; z-index:9999;"
-        onclick="cl(&#39;#cover&#39;)">X</a>
+        onclick="cl('#cover')">X</a>
       <div id="cvr" style="position:absolute; width:99%; height:100%; margin:auto; z-index:9898;"></div>
     </div>
   </div>
@@ -28,7 +28,7 @@
   $ti=$title->find(['sh'=>1]);
   ?>
   <a title="<?=$ti['text'];?>" href="index.php">
-      <div class="ti" style="background:url(&#39;img/<?=$ti['img'];?>&#39;); background-size:cover;"></div>
+      <div class="ti" style="background:url('img/<?=$ti['img'];?>'); background-size:cover;"></div>
       <!--標題-->
     </a>
     <div id="ms">
@@ -77,7 +77,12 @@
         </div>
         <div class="dbor" style="margin:3px; width:95%; height:20%; line-height:100px;">
           <span class="t">進站總人數 :
-            1 </span>
+          <?php
+          $total=new DB("total");
+          $tt=$total->find(1);
+          echo $tt['total'];
+          ;?>
+          </span>
         </div>
       </div>
       <div class="di"
@@ -88,7 +93,7 @@
             <tr>
               <td style="width:70%;font-weight:800; border:#333 1px solid; border-radius:3px;" class="cent"><a
                   href="?do=admin" style="color:#000; text-decoration:none;">學校後台管理區</a></td>
-              <td><button onclick="document.cookie=&#39;user=&#39;;location.replace(&#39;?&#39;)"
+              <td><button onclick="document.cookie='user=';location.replace('?')"
                   style="width:99%; margin-right:2px; height:50px;">管理登出</button></td>
             </tr>
           </tbody>

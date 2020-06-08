@@ -4,11 +4,10 @@
             <table width="100%">
               <tbody>
                 <tr class="yel">
-                  <td width="45%">網站標題</td>
-                  <td width="23%">替代文字</td>
-                  <td width="7%">顯示</td>
-                  <td width="7%">刪除</td>
-                  <td></td>
+                  <td width="80%">動態文字廣告</td>
+                  <td width="10%">顯示</td>
+                  <td width="10%">刪除</td>
+                  
                 </tr>
               </tbody>
             </table>
@@ -16,7 +15,7 @@
               <tbody>
                 <tr>
                   <td width="200px"><input type="button"
-                      onclick="op(&#39;#cover&#39;,&#39;#cvr&#39;,&#39;modal/ad.php&#39;)" value="新增網站標題圖片"></td>
+                      onclick="op('#cover','#cvr','modal/ad.php')" value="新增網站標題圖片"></td>
                   <td class="cent"><input type="submit" value="修改確定"><input type="reset" value="重置"></td>
                 </tr>
               </tbody>
