@@ -1,127 +1,135 @@
 <?php
 
-class DB{
-//設定屬性
-  private $dsn="mysql:host=localhost;charset=utf8;dbname=db99";
-  private $root="root";
-  private $password="";
-  private $table;
-  private $pdo;
+$dsn="mysql:host=localhost;charset=utf8;dbname=files";
+$pdo=new PDO($dsn,"root","");
+date_default_timezone_set("Asia/Taipei");
+session_start();
 
+function all($table,...$arg){
+  global $pdo;
+  $sql="select * from $table ";
 
-//設定建構式，第13行的$table變數，因為第13行還沒執行，所以可以取一樣的變數名稱，但其實第13行和第8行是不同的。13行與14行的$table才是相同的。
-  public function __construct($table){
-    $this->table=$table;
-    $this->pdo=new PDO($this->dsn,$this->root,$this->password);
-        
-  }
-
-//取得全部資料
-  public function all(...$arg){
-    $sql="select * from $this->table";
-
-    if(!empty($arg[0]) && is_array($arg[0])) {
-      foreach($arg[0] as $key => $value){
-        $tmp[]=sprintf("`%s`='%s'",$key,$value);
-      }
-      $sql=$sql. " where " . implode(" && ",$tmp);
-    }
-
-    if(!empty($arg[1])){
-      $sql=$sql." ".$arg[1];
-    }
-    // echo $sql;
-    return $this->pdo->query($sql)->fetchAll();
-  }
-
-
-//取得單筆資料
-public function find($arg){
-  $sql="select * from $this->table";
-
-  if(is_array($arg)) {
-    foreach($arg as $key => $value){
-      $tmp[]=sprintf("`%s`='%s'",$key,$value);
-    }
-    $sql=$sql. " where " . implode(" && ",$tmp);
-  }else{
-    $sql=$sql. " where `id`='$arg'";
-  }
-
-  // echo $sql;
-  return $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
-}
-
-//計算筆數
-public function count(...$arg){
-  $sql="select count(*) from $this->table";
-
-  if(!empty($arg[0]) && is_array($arg[0])) {
+  if(isset($arg[0]) && is_array($arg[0])){
+    
+    $tmp=[];
     foreach($arg[0] as $key => $value){
       $tmp[]=sprintf("`%s`='%s'",$key,$value);
     }
-    $sql=$sql. " where " . implode(" && ",$tmp);
+
+    $sql=$sql. " where " .join(" && ",$tmp);
   }
 
-  if(!empty($arg[1])){
-    $sql=$sql." ".$arg[1];
+  if(isset($arg[1])){
+    $sql=$sql . $sql[1];
   }
+
   // echo $sql;
-  return $this->pdo->query($sql)->fetchColumn();
+  return $pdo->query($sql)->fetchAll();
 }
 
 
-//新增與更新資料
-  public function save($arg){
-    if(!empty($arg['id'])){
-      //更新
-      //$sql="update $this->table set xxx=yyy where `id` = 'xxx'";
-      foreach($arg as $key => $value){
-        if($key!='id'){
-        $tmp[]=sprintf("`%s`='%s'",$key,$value);
-        }
-      }
-      $sql="update $this->table set ".implode(",",$tmp)." where `id`='".$arg['id']."'";
-    }else{
-      //新增
-      //$sql="insert into $this->table (``,``,``) values('','','');
-      $sql="insert into $this->table (`".implode("`,`",array_keys($arg))."`) values('".implode("','",$arg)."')";
-    }
-    return $this->pdo->exec($sql);
-  }
 
 
-//刪除資料
-public function del($arg){
-  $sql="delete from $this->table";
-
-  if(is_array($arg)) {
+function del($table,$arg){
+  global $pdo;
+  $sql="delete from $table ";
+  
+  if(is_array($arg)){
+    $tmp=[];
     foreach($arg as $key => $value){
       $tmp[]=sprintf("`%s`='%s'",$key,$value);
     }
-    $sql=$sql. " where " . implode(" && ",$tmp);
+    $sql=$sql. " where " .join(" && ",$tmp);
+  
   }else{
-    $sql=$sql. " where `id`='$arg'";
+    $sql=$sql . " where `id`='$arg'";
   }
 
   // echo $sql;
-  return $this->pdo->exec($sql);
+  return $pdo->exec($sql);
 }
 
 
-//萬用語法
+
+function find($table,$arg){
+  global $pdo;
+  $sql="select * from $table ";
+  
+  if(is_array($arg)){
+    $tmp=[];
+    foreach($arg as $key => $value){
+      $tmp[]=sprintf("`%s`='%s'",$key,$value);
+    }
+
+    $sql=$sql. " where " .join(" && ",$tmp);
+  }else{
+    $sql=$sql. " where `id`='$arg'";
+  }
+  // echo $sql;
+  return $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
+}
+
+
+function nums($table,...$arg){
+  global $pdo;
+  $sql="select count(*) from $table ";
+  
+  if(isset($arg[0]) && is_array($arg[0])){
+    $tmp=[];
+    foreach($arg[0] as $key => $value){
+      $tmp[]=sprintf("`%s`='%s'",$key,$value);
+    }
+    $sql=$sql . " where " . join(" && ",$tmp);
+  }
+
+  if(isset($arg[1])){
+    $sql=$sql. $arg[1];
+  }
+  // echo $sql;
+  return $pdo->query($sql)->fetchColumn();
+}
+
+
+
 function q($sql){
- return $this->pdo->query($sql)->fetchAll();
+  global $pdo;
 
+  return $pdo->query($sql)->fetchAll();
 }
 
 
+
+function save($table,$arg){
+  global $pdo;
+  //update
+  if(isset($arg['id'])){
+    $tmp=[];
+    foreach($arg as $key => $value){
+      if($key!='id'){
+      $tmp[]=sprintf("`%s`='%s'",$key,$value);
+      }
+    }
+    $sql="update $table set ". join(",",$tmp) . " where `id`='" . $arg['id']."'";
+  }else{
+  //insert
+    $sql="insert into $table (`" . join("`,`",array_keys($arg))."`) values ('". join("','",$arg) ."')";
+  }
+  // echo $sql;
+  return $pdo->exec($sql);
 }
 
 
-function to ($url){
+function to($url){
   header("location:".$url);
 }
 
+
+
+// ※架構：
+// all:...$arg。 第三個變數：if(isset($arg[1])){  $sql=$sql . $sql[1];  }。｜query($sql)->fetchAll();
+// nums:...$arg。 同上。｜ query($sql)->fetchColumn();
+// find:$arg。僅需判斷是否為陣列，不是就" where `id`='$arg'"; ｜ query($sql)->fetch(PDO::FETCH_ASSOC);
+// del:$arg。僅需判斷是否為陣列，不是就" where `id`='$arg'"; ｜ exec($sql);
+// save:判斷變數有無id，若是有id，foreach時記得先排除id再格式化sprintf存入陣列。 ｜ exec($sql);
 
 ?>
