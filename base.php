@@ -2,16 +2,16 @@
 
 class DB{
 //設定屬性
-  private $dsn="mysql:host=localhost;charset=utf8;dbname=db99";
+  private $dsn="mysql:host=localhost;charset=utf8;dbname=db01";
   private $root="root";
   private $password="";
   private $table;
   private $pdo;
 
-
+//$this是指class的DB。
 //設定建構式，第13行的$table變數，因為第13行還沒執行，所以可以取一樣的變數名稱，但其實第13行和第8行是不同的。13行與14行的$table才是相同的。
   public function __construct($table){
-    $this->table=$table;
+    $this->table=$table;    //$this->table就是第8行先宣告的變數。意指將DB裡的table設定成外部公開__construct($table)帶進來的$table名稱。拿到此資料表名稱後，就可以建立此DB專用連線的物件，後續就可以拿來運用。
     $this->pdo=new PDO($this->dsn,$this->root,$this->password);
         
   }
