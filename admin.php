@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html
+﻿<?php include_once "base.php";?>
+
+<!DOCTYPE html
   PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!-- saved from url=(0068)?do=admin&redo=title -->
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -20,7 +22,7 @@
       <div id="cvr" style="position:absolute; width:99%; height:100%; margin:auto; z-index:9898;"></div>
     </div>
   </div>
-  <iframe style="display:none;" name="back" id="back"></iframe>
+  <!--iframe可以刪除或註解或不管它，這題都沒差，現在已經直接用AJAX技術取代iframe <iframe style="display:none;" name="back" id="back"></iframe> -->
   <div id="main">
     <a title="" href="?">
       <div class="ti" style="background:url(&#39;use/&#39;); background-size:cover;"></div>
@@ -30,8 +32,8 @@
       <div id="lf" style="float:left;">
         <div id="menuput" class="dbor">
           <!--主選單放此-->
-          <span class="t botli">後台管理選單</span>
-          <a style="color:#000; font-size:13px; text-decoration:none;" href="?do=title">
+          <span class="t botli">後台管理選單</span>  <!-- ?：代表當前頁面，所以這邊href="?do=title"等同於href="/admin.php?do=title" -->
+          <a style="color:#000; font-size:13px; text-decoration:none;" href="?do=title"> 
             <div class="mainmu">
               網站標題管理 </div>
           </a>
