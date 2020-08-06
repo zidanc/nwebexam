@@ -1,5 +1,8 @@
 <?php
 
+  date_default_timezone_set("Asia/Taipei");
+  session_start();
+
 class DB{
 //設定屬性
   private $dsn="mysql:host=localhost;charset=utf8;dbname=db01";
@@ -9,9 +12,9 @@ class DB{
   private $pdo;
 
 //$this是指現在此class(類別)的DB。
-//設定建構式，第13行的$table變數，因為第13行還沒執行，所以可以取一樣的變數名稱，但其實第13行和第8行是不同的。13行與14行的$table才是相同的。
+//設定建構式，第16行的$table變數，因為第16行還沒執行，所以可以取一樣的變數名稱，但其實第16行和第11行是不同的。16行與17行的$table才是相同的。
   public function __construct($table){
-    $this->table=$table;    //$this->table就是第8行先宣告的變數。意指將DB裡的table設定成外部公開__construct($table)帶進來的$table名稱。帶進來的$table名稱設定給此資料表名稱$this->table後，就可以將剛才建立DB專用連線的物件、屬性、成員、方法及PDO連線，拿來運用在帶進來的$table名稱。
+    $this->table=$table;    //$this->table就是第11行先宣告的變數。意指將DB裡的table設定成外部公開__construct($table)帶進來的$table名稱。帶進來的$table名稱設定給此資料表名稱$this->table後，就可以將剛才建立DB專用連線的物件、屬性、成員、方法及PDO連線，拿來運用在帶進來的$table名稱。
     $this->pdo=new PDO($this->dsn,$this->root,$this->password);
         
   }
